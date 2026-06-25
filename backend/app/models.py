@@ -19,8 +19,13 @@ class Document(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+
     filename = Column(String(255), nullable=False)
+    original_filename = Column(String(255), nullable=False)
+    file_path = Column(String(500), nullable=False)
     file_type = Column(String(20), nullable=False)
+    file_size = Column(Integer, nullable=False)
+
     status = Column(String(50), default="uploaded")
     uploaded_at = Column(DateTime(timezone=True), server_default=func.now())
 

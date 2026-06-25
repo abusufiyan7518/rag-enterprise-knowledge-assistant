@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from .database import engine
 from .models import Base
-from .routes import auth_routes
+from .routes import auth_routes, document_routes
 
 Base.metadata.create_all(bind=engine)
 
@@ -13,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_routes.router)
+app.include_router(document_routes.router)
 
 
 @app.get("/")

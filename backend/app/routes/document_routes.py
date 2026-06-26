@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Document
+from app.services.document_service import extract_text
+
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
 
@@ -35,6 +37,14 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
 
     file_size = os.path.getsize(file_path)
 
+    extracted_text = extract_text(file_path)
+
+    if not extracted_text:
+        raise HTTPException(
+            status_code=400,
+            detail="Text could not be extracted from the uploaded document"
+        )
+
     new_document = Document(
         filename=unique_filename,
         original_filename=original_filename,
@@ -55,7 +65,8 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
             "original_filename": new_document.original_filename,
             "file_type": new_document.file_type,
             "file_size": new_document.file_size,
-            "status": new_document.status
+            "status": new_document.status,
+            "text_preview": extracted_text[:300]
         }
     }
 

@@ -10,6 +10,7 @@ from app.models import Document
 from app.services.document_service import extract_text
 from app.services.chunk_service import split_text_into_chunks
 from app.services.embedding_service import generate_embeddings
+from app.services.vector_service import store_document_chunks
 
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
@@ -49,6 +50,7 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
 
     chunks = split_text_into_chunks(extracted_text)
     embeddings = generate_embeddings(chunks)
+    
 
     new_document = Document(
         filename=unique_filename,
@@ -63,6 +65,13 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
     db.commit()
     db.refresh(new_document)
 
+    stored_chunks = store_document_chunks(
+        document_id=new_document.id,
+        filename=new_document.original_filename,
+        chunks=chunks,
+        embeddings=embeddings
+    )
+
     return {
         "message": "Document uploaded successfully",
         "document": {
@@ -74,6 +83,7 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
             "total_chunks": len(chunks),
             "total_embeddings": len(embeddings),
             "embedding_dimension": len(embeddings[0]) if embeddings else 0,
+            "stored_chunks": stored_chunks,
             "text_preview": extracted_text[:300]
         }
     }

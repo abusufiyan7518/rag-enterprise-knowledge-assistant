@@ -9,6 +9,7 @@ from app.database import get_db
 from app.models import Document
 from app.services.document_service import extract_text
 from app.services.chunk_service import split_text_into_chunks
+from app.services.embedding_service import generate_embeddings
 
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
@@ -47,6 +48,7 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
         )
 
     chunks = split_text_into_chunks(extracted_text)
+    embeddings = generate_embeddings(chunks)
 
     new_document = Document(
         filename=unique_filename,
@@ -70,6 +72,8 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
             "file_size": new_document.file_size,
             "status": new_document.status,
             "total_chunks": len(chunks),
+            "total_embeddings": len(embeddings),
+            "embedding_dimension": len(embeddings[0]) if embeddings else 0,
             "text_preview": extracted_text[:300]
         }
     }

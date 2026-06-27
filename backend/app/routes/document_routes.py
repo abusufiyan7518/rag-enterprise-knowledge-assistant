@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Document
 from app.services.document_service import extract_text
+from app.services.chunk_service import split_text_into_chunks
 
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
@@ -45,6 +46,8 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
             detail="Text could not be extracted from the uploaded document"
         )
 
+    chunks = split_text_into_chunks(extracted_text)
+
     new_document = Document(
         filename=unique_filename,
         original_filename=original_filename,
@@ -66,6 +69,7 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
             "file_type": new_document.file_type,
             "file_size": new_document.file_size,
             "status": new_document.status,
+            "total_chunks": len(chunks),
             "text_preview": extracted_text[:300]
         }
     }

@@ -45,3 +45,35 @@ def store_document_chunks(
     )
 
     return len(chunks)
+
+
+def search_similar_chunks(
+    query_embedding: List[float],
+    top_k: int = 3,
+    document_id: int | None = None
+):
+    where_filter = None
+
+    if document_id is not None:
+        where_filter = {"document_id": document_id}
+
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k,
+        where=where_filter
+    )
+
+    documents = results.get("documents", [[]])[0]
+    metadatas = results.get("metadatas", [[]])[0]
+    distances = results.get("distances", [[]])[0]
+
+    search_results = []
+
+    for index, document in enumerate(documents):
+        search_results.append({
+            "content": document,
+            "metadata": metadatas[index] if index < len(metadatas) else {},
+            "score": distances[index] if index < len(distances) else None
+        })
+
+    return search_results

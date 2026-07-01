@@ -1,13 +1,16 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
 from app.services.embedding_service import generate_embedding
 from app.services.vector_service import search_similar_chunks
 from app.services.llm_service import generate_rag_answer
 
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.models import QueryHistory
+
 
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
-
 class QuestionRequest(BaseModel):
     question: str
     document_id: int | None = None
@@ -34,7 +37,7 @@ def semantic_search(request: QuestionRequest):
     }
 
 @router.post("/ask")
-def ask_question(request: QuestionRequest):
+def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
     if not request.question.strip():
         raise HTTPException(
             status_code=400,
@@ -58,6 +61,16 @@ def ask_question(request: QuestionRequest):
         question=request.question,
         context_chunks=context_chunks
     )
+    query_record = QueryHistory(
+        user_id=None,
+        document_id=request.document_id,
+        question=request.question,
+        answer=answer
+    )
+
+    db.add(query_record)
+    db.commit()
+    db.refresh(query_record)
 
     sources = [
         {
@@ -72,5 +85,27 @@ def ask_question(request: QuestionRequest):
     return {
         "question": request.question,
         "answer": answer,
-        "sources": sources
+        "sources": sources,
+        "query_id": query_record.id,
     }
+
+@router.get("/history")
+def get_query_history(db: Session = Depends(get_db)):
+    history = db.query(QueryHistory).order_by(QueryHistory.id.desc()).all()
+
+    history_data = [
+        {
+            "id": item.id,
+            "user_id": item.user_id,
+            "document_id": item.document_id,
+            "question": item.question,
+            "answer": item.answer,
+            "created_at": item.created_at
+        }
+        for item in history
+    ]
+
+    return {
+        "total": len(history_data),
+        "history": history_data
+    } 

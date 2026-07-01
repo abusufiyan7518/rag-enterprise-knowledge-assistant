@@ -7,7 +7,7 @@ from app.services.llm_service import generate_rag_answer
 
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models import QueryHistory
+from app.models import QueryHistory, Document
 
 
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
@@ -43,7 +43,15 @@ def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
             status_code=400,
             detail="Question cannot be empty"
         )
+    if request.document_id is not None:
+        document = db.query(Document).filter(Document.id == request.document_id).first()
 
+        if not document:
+            raise HTTPException(
+                status_code=404,
+                detail="Document not found"
+            )
+        
     query_embedding = generate_embedding(request.question)
 
     search_results = search_similar_chunks(
@@ -56,11 +64,24 @@ def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
         result["content"]
         for result in search_results
     ]
+    
+    if not context_chunks:
+        raise HTTPException(
+            status_code=404,
+            detail="No relevant document chunks found"
+        )
 
-    answer = generate_rag_answer(
-        question=request.question,
-        context_chunks=context_chunks
-    )
+    try:
+        answer = generate_rag_answer(
+            question=request.question,
+            context_chunks=context_chunks
+        )
+    except Exception:
+        raise HTTPException(
+            status_code=503,
+            detail="LLM service is currently unavailable. Please try again later."
+        )
+    
     query_record = QueryHistory(
         user_id=None,
         document_id=request.document_id,
@@ -77,16 +98,16 @@ def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
             "filename": result["metadata"].get("filename"),
             "document_id": result["metadata"].get("document_id"),
             "chunk_index": result["metadata"].get("chunk_index"),
-            "score": result["score"]
+            "score": round(result["score"], 4) if result["score"] is not None else None
         }
         for result in search_results
     ]
 
     return {
+        "query_id": query_record.id,
         "question": request.question,
         "answer": answer,
-        "sources": sources,
-        "query_id": query_record.id,
+        "sources": sources
     }
 
 @router.get("/history")

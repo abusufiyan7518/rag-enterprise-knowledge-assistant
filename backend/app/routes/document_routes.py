@@ -93,10 +93,30 @@ def upload_document(file: UploadFile = File(...),db: Session = Depends(get_db),c
 
 
 @router.get("/")
-def get_documents(db: Session = Depends(get_db)):
-    documents = db.query(Document).order_by(Document.id.desc()).all()
+def get_documents(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    documents = (
+        db.query(Document)
+        .filter(Document.user_id == current_user.id)
+        .order_by(Document.id.desc())
+        .all()
+    )
+
+    document_data = [
+        {
+            "id": document.id,
+            "original_filename": document.original_filename,
+            "file_type": document.file_type,
+            "file_size": document.file_size,
+            "status": document.status,
+            "uploaded_at": document.uploaded_at
+        }
+        for document in documents
+    ]
 
     return {
-        "total": len(documents),
-        "documents": documents
+        "total": len(document_data),
+        "documents": document_data
     }

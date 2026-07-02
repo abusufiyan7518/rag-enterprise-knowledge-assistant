@@ -7,13 +7,17 @@ from app.services.llm_service import generate_rag_answer
 
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models import QueryHistory, Document
 
+from app.auth import get_current_user
+from app.models import QueryHistory, Document, User
 
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
 
 @router.post("/search")
-def semantic_search(request: QuestionRequest):
+def semantic_search(
+    request: QuestionRequest,
+    current_user: User = Depends(get_current_user)
+):
     if not request.question.strip():
         raise HTTPException(
             status_code=400,
@@ -34,7 +38,11 @@ def semantic_search(request: QuestionRequest):
     }
 
 @router.post("/ask", response_model=AskQuestionResponse)
-def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
+def ask_question(
+    request: QuestionRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     if not request.question.strip():
         raise HTTPException(
             status_code=400,
@@ -80,7 +88,7 @@ def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
         )
     
     query_record = QueryHistory(
-        user_id=None,
+        user_id=current_user.id,
         document_id=request.document_id,
         question=request.question,
         answer=answer
@@ -108,8 +116,11 @@ def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
     }
 
 @router.get("/history", response_model=QueryHistoryListResponse)
-def get_query_history(db: Session = Depends(get_db)):
-    history = db.query(QueryHistory).order_by(QueryHistory.id.desc()).all()
+def get_query_history(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    history = (db.query(QueryHistory).filter(QueryHistory.user_id == current_user.id).order_by(QueryHistory.id.desc()).all())
 
     history_data = [
         {

@@ -6,11 +6,13 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import Document
+from app.models import Document, User
 from app.services.document_service import extract_text
 from app.services.chunk_service import split_text_into_chunks
 from app.services.embedding_service import generate_embeddings
 from app.services.vector_service import store_document_chunks
+
+from app.auth import get_current_user
 
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
@@ -22,7 +24,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.post("/upload")
-def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db)):
+def upload_document(file: UploadFile = File(...),db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     original_filename = file.filename
     file_extension = os.path.splitext(original_filename)[1].lower()
 
@@ -53,6 +55,7 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
     
 
     new_document = Document(
+        user_id=current_user.id,
         filename=unique_filename,
         original_filename=original_filename,
         file_path=file_path,
@@ -60,7 +63,7 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
         file_size=file_size,
         status="uploaded"
     )
-
+    
     db.add(new_document)
     db.commit()
     db.refresh(new_document)

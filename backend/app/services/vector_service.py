@@ -77,3 +77,8 @@ def search_similar_chunks(
         })
 
     return search_results
+
+def delete_document_chunks(document_id: int) -> None:
+    collection.delete(
+        where={"document_id": document_id}
+    )

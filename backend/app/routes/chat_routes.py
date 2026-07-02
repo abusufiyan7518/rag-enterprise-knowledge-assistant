@@ -1,21 +1,49 @@
 from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+
 from app.schemas import QuestionRequest, AskQuestionResponse, QueryHistoryListResponse
 
 from app.services.embedding_service import generate_embedding
 from app.services.vector_service import search_similar_chunks
 from app.services.llm_service import generate_rag_answer
 
-from sqlalchemy.orm import Session
 from app.database import get_db
-
 from app.auth import get_current_user
 from app.models import QueryHistory, Document, User
 
+
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
+
+
+def validate_document_access(
+    document_id: int | None,
+    current_user: User,
+    db: Session
+):
+    if document_id is None:
+        return None
+
+    document = db.query(Document).filter(Document.id == document_id).first()
+
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+
+    if document.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="You are not authorized to access this document"
+        )
+
+    return document
+
 
 @router.post("/search")
 def semantic_search(
     request: QuestionRequest,
+    db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     if not request.question.strip():
@@ -23,6 +51,12 @@ def semantic_search(
             status_code=400,
             detail="Question cannot be empty"
         )
+
+    validate_document_access(
+        document_id=request.document_id,
+        current_user=current_user,
+        db=db
+    )
 
     query_embedding = generate_embedding(request.question)
 
@@ -37,6 +71,7 @@ def semantic_search(
         "results": results
     }
 
+
 @router.post("/ask", response_model=AskQuestionResponse)
 def ask_question(
     request: QuestionRequest,
@@ -48,15 +83,13 @@ def ask_question(
             status_code=400,
             detail="Question cannot be empty"
         )
-    if request.document_id is not None:
-        document = db.query(Document).filter(Document.id == request.document_id).first()
 
-        if not document:
-            raise HTTPException(
-                status_code=404,
-                detail="Document not found"
-            )
-        
+    validate_document_access(
+        document_id=request.document_id,
+        current_user=current_user,
+        db=db
+    )
+
     query_embedding = generate_embedding(request.question)
 
     search_results = search_similar_chunks(
@@ -69,7 +102,7 @@ def ask_question(
         result["content"]
         for result in search_results
     ]
-    
+
     if not context_chunks:
         raise HTTPException(
             status_code=404,
@@ -86,7 +119,7 @@ def ask_question(
             status_code=503,
             detail="LLM service is currently unavailable. Please try again later."
         )
-    
+
     query_record = QueryHistory(
         user_id=current_user.id,
         document_id=request.document_id,
@@ -115,12 +148,18 @@ def ask_question(
         "sources": sources
     }
 
+
 @router.get("/history", response_model=QueryHistoryListResponse)
 def get_query_history(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    history = (db.query(QueryHistory).filter(QueryHistory.user_id == current_user.id).order_by(QueryHistory.id.desc()).all())
+    history = (
+        db.query(QueryHistory)
+        .filter(QueryHistory.user_id == current_user.id)
+        .order_by(QueryHistory.id.desc())
+        .all()
+    )
 
     history_data = [
         {
@@ -137,4 +176,4 @@ def get_query_history(
     return {
         "total": len(history_data),
         "history": history_data
-    } 
+    }

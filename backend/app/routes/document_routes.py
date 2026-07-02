@@ -6,13 +6,14 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import Document, User
 from app.services.document_service import extract_text
 from app.services.chunk_service import split_text_into_chunks
 from app.services.embedding_service import generate_embeddings
 from app.services.vector_service import store_document_chunks
 
 from app.auth import get_current_user
+from app.services.vector_service import delete_document_chunks
+from app.models import Document, User, QueryHistory
 
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
@@ -119,4 +120,41 @@ def get_documents(
     return {
         "total": len(document_data),
         "documents": document_data
+    }
+
+
+@router.delete("/{document_id}")
+def delete_document(
+    document_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    document = db.query(Document).filter(Document.id == document_id).first()
+
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="Document not found"
+        )
+
+    if document.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="You are not authorized to delete this document"
+        )
+
+    if os.path.exists(document.file_path):
+        os.remove(document.file_path)
+
+    delete_document_chunks(document_id=document.id)
+    
+    db.query(QueryHistory).filter(QueryHistory.document_id == document.id).update({"document_id": None},synchronize_session=False)
+
+    db.delete(document)
+    db.commit()
+    
+
+    return {
+        "message": "Document deleted successfully",
+        "document_id": document_id
     }

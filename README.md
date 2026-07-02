@@ -10,7 +10,7 @@ The application enables users to upload enterprise documents (PDF/DOCX), automat
 
 Traditional keyword-based search struggles to answer natural language questions from large enterprise documents.
 
-This project solves that problem by implementing a complete RAG pipeline:
+This project solves that problem by implementing a complete RAG pipeline :
 
 - Upload enterprise documents
 - Extract document text

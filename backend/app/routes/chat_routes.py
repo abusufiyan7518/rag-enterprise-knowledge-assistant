@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
+from app.schemas import QuestionRequest, AskQuestionResponse, QueryHistoryListResponse
 
 from app.services.embedding_service import generate_embedding
 from app.services.vector_service import search_similar_chunks
@@ -11,9 +11,6 @@ from app.models import QueryHistory, Document
 
 
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
-class QuestionRequest(BaseModel):
-    question: str
-    document_id: int | None = None
 
 @router.post("/search")
 def semantic_search(request: QuestionRequest):
@@ -36,7 +33,7 @@ def semantic_search(request: QuestionRequest):
         "results": results
     }
 
-@router.post("/ask")
+@router.post("/ask", response_model=AskQuestionResponse)
 def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
     if not request.question.strip():
         raise HTTPException(
@@ -110,7 +107,7 @@ def ask_question(request: QuestionRequest, db: Session = Depends(get_db)):
         "sources": sources
     }
 
-@router.get("/history")
+@router.get("/history", response_model=QueryHistoryListResponse)
 def get_query_history(db: Session = Depends(get_db)):
     history = db.query(QueryHistory).order_by(QueryHistory.id.desc()).all()
 

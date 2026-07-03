@@ -3,6 +3,7 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import DocumentList from "../components/DocumentList";
 import { uploadDocument } from "../services/documentService";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Upload() {
   const [file, setFile] = useState(null);
@@ -57,10 +58,16 @@ function Upload() {
               onChange={(event) => setFile(event.target.files[0])}
             />
           </div>
-
+      
           <button className="primary-btn" type="submit" disabled={uploading}>
             {uploading ? "Processing..." : "Upload Document"}
           </button>
+
+          {uploading && (
+            <div style={{ marginTop: "16px" }}>
+              <LoadingSpinner text="Extracting text, generating embeddings, and storing vectors..." />
+            </div>
+          )}
         </form>
 
         {message && (

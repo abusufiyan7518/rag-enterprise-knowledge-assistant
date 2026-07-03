@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Layout from "../components/Layout";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { getDocuments } from "../services/documentService";
 import { askQuestion } from "../services/chatService";
 import "../styles/chat.css";
@@ -11,10 +12,15 @@ function Chat() {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     loadDocuments();
   }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   const loadDocuments = async () => {
     try {
@@ -32,43 +38,47 @@ function Chat() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!question.trim()) {
-      return;
-    }
+    if (!question.trim()) return;
 
     if (!selectedDocument) {
       alert("Please select a document first.");
       return;
     }
 
-    const userMessage = {
-      role: "user",
-      content: question,
-    };
+    const currentQuestion = question;
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "user",
+        content: currentQuestion,
+      },
+    ]);
+
+    setQuestion("");
     setLoading(true);
 
     try {
-      const data = await askQuestion(question, selectedDocument.id);
+      const data = await askQuestion(currentQuestion, selectedDocument.id);
 
-      const assistantMessage = {
-        role: "assistant",
-        content: data.answer,
-        sources: data.sources,
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-      setQuestion("");
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: data.answer,
+          sources: data.sources,
+        },
+      ]);
     } catch (error) {
-      const errorMessage = {
-        role: "assistant",
-        content:
-          error.response?.data?.detail ||
-          "Unable to generate an answer. Please try again.",
-      };
-
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            error.response?.data?.detail ||
+            "Unable to generate an answer. Please try again.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -99,7 +109,9 @@ function Chat() {
                   onClick={() => setSelectedDocument(document)}
                 >
                   <h4>{document.original_filename}</h4>
-                  <p>{document.file_type.toUpperCase()} · {document.status}</p>
+                  <p>
+                    {document.file_type.toUpperCase()} · {document.status}
+                  </p>
                 </div>
               ))
             )}
@@ -114,30 +126,39 @@ function Chat() {
           </h2>
 
           <div className="messages">
-            {messages.length === 0 ? (
+            {messages.length === 0 && !loading && (
               <div className="empty-state">
                 Select a document and ask a question to begin.
               </div>
-            ) : (
-              messages.map((message, index) => (
-                <div key={index} className={`message ${message.role}`}>
-                  <div className="message-bubble">
-                    {message.content}
-
-                    {message.sources && (
-                      <div className="source-box">
-                        Sources:
-                        {message.sources.map((source, idx) => (
-                          <div key={idx}>
-                            {source.filename} · Chunk {source.chunk_index}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))
             )}
+
+            {messages.map((message, index) => (
+              <div key={index} className={`message ${message.role}`}>
+                <div className="message-bubble">
+                  {message.content}
+
+                  {message.sources && (
+                    <div className="source-box">
+                      Sources:
+                      {message.sources.map((source, idx) => (
+                        <div key={idx}>
+                          {source.filename} · Chunk {source.chunk_index}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {loading && (
+              <div className="message assistant">
+                <div className="message-bubble">
+                  <LoadingSpinner text="Gemini is generating an answer..." />
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
 
           <form className="chat-form" onSubmit={handleSubmit}>

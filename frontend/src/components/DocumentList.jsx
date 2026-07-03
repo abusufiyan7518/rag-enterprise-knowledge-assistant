@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
 
-import { getDocuments } from "../services/documentService";
+import { getDocuments, deleteDocument } from "../services/documentService";
 
 function DocumentList({ refreshKey }) {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleDelete = async (documentId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this document?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      await deleteDocument(documentId);
+      await loadDocuments();
+    } catch (error) {
+      alert(error.response?.data?.detail || "Failed to delete document.");
+    }
+  };
 
   useEffect(() => {
     loadDocuments();
@@ -60,6 +77,22 @@ function DocumentList({ refreshKey }) {
               <p style={{ margin: "4px 0", color: "#64748b" }}>
                 Uploaded: {new Date(document.uploaded_at).toLocaleString()}
               </p>
+
+              <button
+                style={{
+                  marginTop: "12px",
+                  border: "none",
+                  background: "#ef4444",
+                  color: "white",
+                  padding: "9px 12px",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  fontWeight: "700",
+                }}
+                onClick={() => handleDelete(document.id)}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>

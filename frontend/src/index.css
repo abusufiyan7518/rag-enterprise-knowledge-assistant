@@ -14,15 +14,24 @@
   --surface: #ffffff;
   --surface-soft: #f8fafc;
   --border: #e5e7eb;
+
   --text-main: #0f172a;
   --text-muted: #64748b;
+
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
+  --primary-light: #eff6ff;
+
   --success: #16a34a;
   --danger: #ef4444;
-  --shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+
   --radius-lg: 24px;
   --radius-md: 16px;
+
+  --shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+  --shadow-hover: 0 18px 40px rgba(15, 23, 42, 0.12);
+
+  --transition: 0.25s ease;
 }
 
 * {
@@ -45,7 +54,7 @@ input {
 }
 
 button {
-  transition: 0.2s ease;
+  transition: var(--transition);
 }
 
 button:hover {
@@ -62,33 +71,31 @@ a {
   border: 1px dashed #bfdbfe;
   border-radius: 22px;
   background: linear-gradient(135deg, #eff6ff, #ffffff);
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .empty-action-card h3 {
   margin: 14px 0 8px;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 .empty-action-card p {
   margin: 0 0 18px;
 }
 
-:root {
-  --primary: #2563eb;
-  --primary-light: #eff6ff;
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-  --text: #0f172a;
-  --muted: #64748b;
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
 
-  --radius: 20px;
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
 
-  --shadow:
-    0 12px 28px rgba(15,23,42,.06);
-
-  --shadow-hover:
-    0 18px 40px rgba(15,23,42,.12);
-
-  --transition:
-    .25s ease;
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

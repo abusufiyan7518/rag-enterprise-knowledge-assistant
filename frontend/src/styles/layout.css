@@ -62,6 +62,31 @@
   margin-top: auto;
 }
 
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sidebar-brand-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.35);
+}
+
+.sidebar-link,
+.logout-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .logout-link {
   width: 100%;
   background: rgba(239, 68, 68, 0.15);

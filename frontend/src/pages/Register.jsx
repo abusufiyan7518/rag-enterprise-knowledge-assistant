@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ShieldCheck, User, Mail, Lock } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { registerUser } from "../services/authService";
 import "../styles/auth.css";
@@ -13,8 +15,6 @@ function Register() {
     password: "",
   });
 
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
@@ -26,8 +26,6 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setMessage("");
-    setError("");
     setLoading(true);
 
     try {
@@ -37,13 +35,16 @@ function Register() {
         formData.password
       );
 
-      setMessage("Account created successfully. Redirecting to login...");
+      toast.success("Account created successfully");
 
       setTimeout(() => {
         navigate("/login");
-      }, 1200);
+      }, 1000);
     } catch (error) {
-      setError(error.response?.data?.detail || "Unable to register. Please try again.");
+      toast.error(
+        error.response?.data?.detail ||
+          "Unable to register. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -52,66 +53,127 @@ function Register() {
   return (
     <main className="auth-page">
       <section className="auth-brand">
+        <div
+          style={{
+            width: "72px",
+            height: "72px",
+            borderRadius: "22px",
+            background: "linear-gradient(135deg,#2563eb,#4f46e5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "white",
+            marginBottom: "24px",
+            boxShadow: "0 20px 45px rgba(37,99,235,.30)",
+          }}
+        >
+          <ShieldCheck size={36} />
+        </div>
+
         <h1>Build your AI knowledge workspace</h1>
+
         <p>
           Register to upload documents, generate embeddings, retrieve answers,
           and maintain your query history securely.
         </p>
 
         <div className="auth-features">
-          <div className="auth-feature">PDF and DOCX processing</div>
-          <div className="auth-feature">Semantic search with ChromaDB</div>
-          <div className="auth-feature">Gemini-powered RAG answers</div>
+          <div className="auth-feature">✓ PDF and DOCX processing</div>
+          <div className="auth-feature">✓ Semantic search with ChromaDB</div>
+          <div className="auth-feature">✓ Gemini-powered RAG answers</div>
         </div>
       </section>
 
       <section className="auth-panel">
         <div className="auth-card">
-          <h2>Create account</h2>
-          <p>Start using your enterprise knowledge assistant.</p>
+          <h2>Create Account</h2>
 
-          {message && <div className="auth-success">{message}</div>}
-          {error && <div className="auth-error">{error}</div>}
+          <p>Start using your enterprise knowledge assistant.</p>
 
           <form onSubmit={handleSubmit}>
             <div className="auth-field">
               <label>Full Name</label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                required
-              />
+
+              <div style={{ position: "relative" }}>
+                <User
+                  size={18}
+                  style={{
+                    position: "absolute",
+                    left: "14px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#94a3b8",
+                  }}
+                />
+
+                <input
+                  style={{ paddingLeft: "42px" }}
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
             </div>
 
             <div className="auth-field">
               <label>Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                required
-              />
+
+              <div style={{ position: "relative" }}>
+                <Mail
+                  size={18}
+                  style={{
+                    position: "absolute",
+                    left: "14px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#94a3b8",
+                  }}
+                />
+
+                <input
+                  style={{ paddingLeft: "42px" }}
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
             </div>
 
             <div className="auth-field">
               <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Create a password"
-                required
-              />
+
+              <div style={{ position: "relative" }}>
+                <Lock
+                  size={18}
+                  style={{
+                    position: "absolute",
+                    left: "14px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#94a3b8",
+                  }}
+                />
+
+                <input
+                  style={{ paddingLeft: "42px" }}
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Create a password"
+                  required
+                />
+              </div>
             </div>
 
             <button className="auth-button" type="submit" disabled={loading}>
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 

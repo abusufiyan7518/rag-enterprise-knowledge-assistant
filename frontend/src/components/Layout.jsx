@@ -1,4 +1,13 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  CloudUpload,
+  MessageSquareText,
+  History,
+  LogOut,
+  ShieldCheck,
+} from "lucide-react";
+
 import "../styles/layout.css";
 
 function Layout({ title, subtitle, children }) {
@@ -14,39 +23,64 @@ function Layout({ title, subtitle, children }) {
   };
 
   const navItems = [
-    { label: "Dashboard", path: "/dashboard" },
-    { label: "Upload Documents", path: "/upload" },
-    { label: "Chat Assistant", path: "/chat" },
-    { label: "Query History", path: "/history" },
+    {
+      label: "Dashboard",
+      path: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      label: "Upload Documents",
+      path: "/upload",
+      icon: CloudUpload,
+    },
+    {
+      label: "Chat Assistant",
+      path: "/chat",
+      icon: MessageSquareText,
+    },
+    {
+      label: "Query History",
+      path: "/history",
+      icon: History,
+    },
   ];
 
   return (
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <h2>RAG Assistant</h2>
-          <p>Enterprise Knowledge System</p>
+          <div className="sidebar-brand-icon">
+            <ShieldCheck size={24} />
+          </div>
+
+          <div>
+            <h2>RAG Assistant</h2>
+            <p>Enterprise Knowledge System</p>
+          </div>
         </div>
 
         <nav className="sidebar-nav">
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              className={
-                location.pathname === item.path
-                  ? "sidebar-link active"
-                  : "sidebar-link"
-              }
-              onClick={() => navigate(item.path)}
-            >
-              {item.label}
-            </button>
-          ))}
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+
+            return (
+              <button
+                key={item.path}
+                className={isActive ? "sidebar-link active" : "sidebar-link"}
+                onClick={() => navigate(item.path)}
+              >
+                <Icon size={19} />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
         </nav>
 
         <div className="sidebar-footer">
           <button className="logout-link" onClick={handleLogout}>
-            Logout
+            <LogOut size={18} />
+            <span>Logout</span>
           </button>
         </div>
       </aside>
@@ -58,9 +92,7 @@ function Layout({ title, subtitle, children }) {
             <p>{subtitle}</p>
           </div>
 
-          <div className="user-pill">
-            {user?.full_name || "User"}
-          </div>
+          <div className="user-pill">{user?.full_name || "User"}</div>
         </header>
 
         {children}

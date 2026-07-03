@@ -17,6 +17,7 @@ function Layout({ title, subtitle, children }) {
     { label: "Dashboard", path: "/dashboard" },
     { label: "Upload Documents", path: "/upload" },
     { label: "Chat Assistant", path: "/chat" },
+    { label: "Query History", path: "/history" },
   ];
 
   return (

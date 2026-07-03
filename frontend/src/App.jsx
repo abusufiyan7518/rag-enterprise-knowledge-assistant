@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import Upload from "./pages/Upload";
+import History from "./pages/History";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/upload" element={<Upload />} />
       <Route path="/chat" element={<Chat />} />
+      <Route path="/history" element={<History />} />
+    
     </Routes>
   );
 }

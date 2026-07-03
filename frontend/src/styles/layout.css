@@ -1,0 +1,152 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f7fb;
+  color: #111827;
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+.sidebar {
+  width: 270px;
+  background: #0f172a;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  margin-bottom: 36px;
+}
+
+.sidebar-logo h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.sidebar-logo p {
+  margin: 6px 0 0;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-link {
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  text-align: left;
+  padding: 13px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: #1e293b;
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.logout-link {
+  width: 100%;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.main-shell {
+  flex: 1;
+  padding: 28px;
+}
+
+.topbar {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.topbar p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.user-pill {
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.panel {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.panel p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: auto;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}

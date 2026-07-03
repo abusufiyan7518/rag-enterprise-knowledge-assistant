@@ -272,3 +272,9 @@
 .empty-action-card p {
   margin: 0 0 18px;
 }
+
+.panel:hover{
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
+}

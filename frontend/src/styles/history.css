@@ -112,3 +112,9 @@
     align-items: flex-start;
   }
 }
+
+.panel:hover{
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
+}

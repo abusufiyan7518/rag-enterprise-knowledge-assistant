@@ -73,3 +73,22 @@ a {
 .empty-action-card p {
   margin: 0 0 18px;
 }
+
+:root {
+  --primary: #2563eb;
+  --primary-light: #eff6ff;
+
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --radius: 20px;
+
+  --shadow:
+    0 12px 28px rgba(15,23,42,.06);
+
+  --shadow-hover:
+    0 18px 40px rgba(15,23,42,.12);
+
+  --transition:
+    .25s ease;
+}

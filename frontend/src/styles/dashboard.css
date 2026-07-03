@@ -157,3 +157,9 @@
     grid-template-columns: 1fr;
   }
 }
+
+.panel:hover{
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
+}

@@ -55,3 +55,21 @@ button:hover {
 a {
   color: inherit;
 }
+
+.empty-action-card {
+  text-align: center;
+  padding: 42px 24px;
+  border: 1px dashed #bfdbfe;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #eff6ff, #ffffff);
+  color: #64748b;
+}
+
+.empty-action-card h3 {
+  margin: 14px 0 8px;
+  color: #0f172a;
+}
+
+.empty-action-card p {
+  margin: 0 0 18px;
+}

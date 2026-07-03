@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FileText, Trash2, CheckCircle2 } from "lucide-react";
+import { FileText, Trash2, CheckCircle2, CloudUpload } from "lucide-react";
 import toast from "react-hot-toast";
 
 import ConfirmModal from "./ConfirmModal";
@@ -106,7 +106,11 @@ function DocumentList({ refreshKey }) {
       </div>
 
       {documents.length === 0 ? (
-        <p style={{ color: "#64748b" }}>No documents uploaded yet.</p>
+        <div className="empty-action-card">
+          <CloudUpload size={34} color="#2563eb" />
+          <h3>No documents uploaded</h3>
+          <p>Upload your first PDF or DOCX file to build your knowledge base.</p>
+        </div>
       ) : (
         <div style={{ display: "grid", gap: "14px" }}>
           {documents.map((document) => {

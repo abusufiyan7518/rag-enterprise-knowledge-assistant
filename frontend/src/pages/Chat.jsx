@@ -1,4 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FileText,
+  Send,
+  Paperclip,
+  Bot,
+  CloudUpload,
+} from "lucide-react";
+import toast from "react-hot-toast";
 
 import Layout from "../components/Layout";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -7,11 +16,14 @@ import { askQuestion } from "../services/chatService";
 import "../styles/chat.css";
 
 function Chat() {
+  const navigate = useNavigate();
+
   const [documents, setDocuments] = useState([]);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -25,13 +37,16 @@ function Chat() {
   const loadDocuments = async () => {
     try {
       const data = await getDocuments();
-      setDocuments(data.documents);
+      const userDocuments = data.documents || [];
 
-      if (data.documents.length > 0) {
-        setSelectedDocument(data.documents[0]);
+      setDocuments(userDocuments);
+
+      if (userDocuments.length > 0) {
+        setSelectedDocument(userDocuments[0]);
       }
     } catch (error) {
       console.error("Failed to load documents:", error);
+      toast.error("Failed to load documents.");
     }
   };
 
@@ -41,7 +56,7 @@ function Chat() {
     if (!question.trim()) return;
 
     if (!selectedDocument) {
-      alert("Please select a document first.");
+      toast.error("Please select a document first.");
       return;
     }
 
@@ -79,6 +94,8 @@ function Chat() {
             "Unable to generate an answer. Please try again.",
         },
       ]);
+
+      toast.error("Unable to generate answer.");
     } finally {
       setLoading(false);
     }
@@ -91,12 +108,30 @@ function Chat() {
     >
       <section className="chat-layout">
         <aside className="document-panel">
-          <h2>My Documents</h2>
-          <p>Select a document before asking a question.</p>
+          <div className="document-panel-header">
+            <div className="document-panel-icon">
+              <FileText size={22} />
+            </div>
 
-          <div style={{ marginTop: "18px" }}>
+            <div>
+              <h2>My Documents</h2>
+              <p>Select a document before asking a question.</p>
+            </div>
+          </div>
+
+          <div className="document-list">
             {documents.length === 0 ? (
-              <p>No documents uploaded yet.</p>
+              <div className="empty-action-card">
+                <CloudUpload size={34} color="#2563eb" />
+                <h3>No documents uploaded</h3>
+                <p>Upload your first PDF or DOCX file to start chatting.</p>
+                <button
+                  className="primary-btn"
+                  onClick={() => navigate("/upload")}
+                >
+                  Upload Document
+                </button>
+              </div>
             ) : (
               documents.map((document) => (
                 <div
@@ -108,10 +143,16 @@ function Chat() {
                   }
                   onClick={() => setSelectedDocument(document)}
                 >
-                  <h4>{document.original_filename}</h4>
-                  <p>
-                    {document.file_type.toUpperCase()} · {document.status}
-                  </p>
+                  <div className="document-card-icon">
+                    <FileText size={20} />
+                  </div>
+
+                  <div>
+                    <h4>{document.original_filename}</h4>
+                    <p>
+                      {document.file_type.toUpperCase()} · {document.status}
+                    </p>
+                  </div>
                 </div>
               ))
             )}
@@ -119,16 +160,43 @@ function Chat() {
         </aside>
 
         <main className="chat-panel">
-          <h2>
-            {selectedDocument
-              ? selectedDocument.original_filename
-              : "No document selected"}
-          </h2>
+          <div className="chat-header">
+            <div>
+              <h2>AI Document Chat</h2>
+              <p className="chat-subtitle">
+                Ask focused questions and get source-backed answers.
+              </p>
+            </div>
+
+            <div className="selected-document-badge">
+              <FileText size={15} />
+              {selectedDocument
+                ? selectedDocument.original_filename
+                : "No document selected"}
+            </div>
+          </div>
 
           <div className="messages">
             {messages.length === 0 && !loading && (
               <div className="empty-state">
-                Select a document and ask a question to begin.
+                <div className="empty-state-icon">
+                  <Bot size={34} />
+                </div>
+
+                <h3>Start a document conversation</h3>
+
+                <p>
+                  {selectedDocument
+                    ? "Ask a question about the selected document."
+                    : "Upload or select a document to begin."}
+                </p>
+
+                {selectedDocument && (
+                  <div style={{ marginTop: "16px", color: "#64748b" }}>
+                    Try: “Summarize this document” or “What skills are
+                    mentioned?”
+                  </div>
+                )}
               </div>
             )}
 
@@ -139,9 +207,13 @@ function Chat() {
 
                   {message.sources && (
                     <div className="source-box">
-                      Sources:
+                      <div className="source-title">
+                        <Paperclip size={14} />
+                        Sources
+                      </div>
+
                       {message.sources.map((source, idx) => (
-                        <div key={idx}>
+                        <div className="source-item" key={idx}>
                           {source.filename} · Chunk {source.chunk_index}
                         </div>
                       ))}
@@ -158,6 +230,7 @@ function Chat() {
                 </div>
               </div>
             )}
+
             <div ref={messagesEndRef} />
           </div>
 
@@ -171,7 +244,14 @@ function Chat() {
             />
 
             <button type="submit" disabled={loading}>
-              {loading ? "Thinking..." : "Send"}
+              {loading ? (
+                "Thinking..."
+              ) : (
+                <>
+                  <Send size={17} />
+                  Send
+                </>
+              )}
             </button>
           </form>
         </main>

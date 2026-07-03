@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
+import {
+  CalendarClock,
+  FileText,
+  HelpCircle,
+  Bot,
+  History as HistoryIcon,
+} from "lucide-react";
 
 import Layout from "../components/Layout";
 import { getQueryHistory } from "../services/chatService";
+import "../styles/history.css";
 
 function History() {
   const [history, setHistory] = useState([]);
@@ -16,7 +24,7 @@ function History() {
 
     try {
       const data = await getQueryHistory();
-      setHistory(data.history);
+      setHistory(data.history || []);
     } catch (error) {
       console.error("Failed to load query history:", error);
     } finally {
@@ -27,47 +35,64 @@ function History() {
   return (
     <Layout
       title="Query History"
-      subtitle="Review your previous questions and AI-generated answers."
+      subtitle="Review previous questions, answers, timestamps, and document references."
     >
-      <section className="panel">
+      <section className="panel history-header-card">
         <h2>Previous Queries</h2>
+        <p>
+          Every question you ask is stored here with its generated answer and
+          document reference.
+        </p>
+      </section>
 
+      <section className="panel">
         {loading ? (
-          <p>Loading query history...</p>
+          <p style={{ color: "#64748b" }}>Loading query history...</p>
         ) : history.length === 0 ? (
-          <p>No query history found.</p>
+          <div className="empty-history">
+            <div className="empty-history-icon">
+              <HistoryIcon size={32} />
+            </div>
+
+            <h3>No query history yet</h3>
+            <p>Ask your first question from the Chat Assistant.</p>
+          </div>
         ) : (
-          <div style={{ display: "grid", gap: "16px", marginTop: "20px" }}>
+          <div className="history-list">
             {history.map((item) => (
-              <div
-                key={item.id}
-                style={{
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "16px",
-                  padding: "18px",
-                  background: "#f8fafc",
-                }}
-              >
-                <p style={{ margin: "0 0 8px", color: "#64748b" }}>
-                  {new Date(item.created_at).toLocaleString()}
-                </p>
+              <article className="history-card" key={item.id}>
+                <div className="history-meta">
+                  <div className="history-meta-item">
+                    <CalendarClock size={16} />
+                    {new Date(item.created_at).toLocaleString()}
+                  </div>
 
-                <h3 style={{ margin: "0 0 10px" }}>{item.question}</h3>
+                  <div className="document-badge">
+                    <FileText size={14} style={{ verticalAlign: "middle" }} />{" "}
+                    {item.document_id
+                      ? `Document ID: ${item.document_id}`
+                      : "Deleted document"}
+                  </div>
+                </div>
 
-                <p
-                  style={{
-                    whiteSpace: "pre-wrap",
-                    color: "#334155",
-                    lineHeight: "1.6",
-                  }}
-                >
-                  {item.answer}
-                </p>
+                <div className="history-question">
+                  <div className="history-icon question-icon">
+                    <HelpCircle size={20} />
+                  </div>
 
-                <p style={{ marginTop: "12px", color: "#64748b" }}>
-                  Document ID: {item.document_id || "Deleted document"}
-                </p>
-              </div>
+                  <div>
+                    <h3>{item.question}</h3>
+                  </div>
+                </div>
+
+                <div className="history-answer">
+                  <div className="history-icon answer-icon">
+                    <Bot size={20} />
+                  </div>
+
+                  <p>{item.answer}</p>
+                </div>
+              </article>
             ))}
           </div>
         )}

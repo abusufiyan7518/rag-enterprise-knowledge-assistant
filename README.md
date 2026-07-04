@@ -173,7 +173,7 @@ A premium dashboard providing quick insights into uploaded documents, query hist
 ## 📂 Document Upload
 
 <p align="center">
-<img src="/frontend/src/ssets/screenshots/uploadDocument.jpg" width="100%" alt="Upload Documents"/>
+<img src="frontend\src\assets\screenshots\uploadDocument.jpg" width="100%" alt="Upload Documents"/>
 </p>
 
 Upload PDF or DOCX files, automatically extract text, generate embeddings, and store vectors inside ChromaDB.

@@ -1,12 +1,12 @@
 import logging
 from typing import List
 
-from google import genai
+import google.generativeai as genai
 
 from app.config import settings
 
 
-client = genai.Client(api_key=settings.GEMINI_API_KEY)
+genai.configure(api_key=settings.GEMINI_API_KEY)
 
 
 def build_rag_prompt(question: str, context_chunks: List[str]) -> str:
@@ -43,10 +43,8 @@ def generate_rag_answer(question: str, context_chunks: List[str]) -> str:
     prompt = build_rag_prompt(question, context_chunks)
 
     try:
-        response = client.models.generate_content(
-            model=settings.GEMINI_MODEL,
-            contents=prompt
-        )
+        model = genai.GenerativeModel(settings.GEMINI_MODEL)
+        response = model.generate_content(prompt)
 
         return response.text.strip()
 

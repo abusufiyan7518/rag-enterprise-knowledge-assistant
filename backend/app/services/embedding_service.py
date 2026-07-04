@@ -1,33 +1,41 @@
-from typing import List, Optional
+from typing import List
 
-from sentence_transformers import SentenceTransformer
+import google.generativeai as genai
+
+from app.config import settings
 
 
-_model: Optional[SentenceTransformer] = None
+genai.configure(api_key=settings.GEMINI_API_KEY)
 
-
-def get_embedding_model() -> SentenceTransformer:
-    global _model
-
-    if _model is None:
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
-
-    return _model
+EMBEDDING_MODEL = "models/text-embedding-004"
 
 
 def generate_embedding(text: str) -> List[float]:
     if not text:
         return []
 
-    model = get_embedding_model()
-    embedding = model.encode(text, show_progress_bar=False)
-    return embedding.tolist()
+    response = genai.embed_content(
+        model=EMBEDDING_MODEL,
+        content=text,
+        task_type="retrieval_query"
+    )
+
+    return response["embedding"]
 
 
 def generate_embeddings(text_chunks: List[str]) -> List[List[float]]:
     if not text_chunks:
         return []
 
-    model = get_embedding_model()
-    embeddings = model.encode(text_chunks, show_progress_bar=False)
-    return embeddings.tolist()
+    embeddings = []
+
+    for chunk in text_chunks:
+        response = genai.embed_content(
+            model=EMBEDDING_MODEL,
+            content=chunk,
+            task_type="retrieval_document"
+        )
+
+        embeddings.append(response["embedding"])
+
+    return embeddings

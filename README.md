@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.png" width="120" alt="Enterprise Knowledge Assistant Logo"/>
+<img src="frontend/src/assets/logo.png" width="120" alt="Enterprise Knowledge Assistant Logo"/>
 
 # 🚀 RAG-Based Enterprise Knowledge Assistant
 
@@ -173,7 +173,7 @@ A premium dashboard providing quick insights into uploaded documents, query hist
 ## 📂 Document Upload
 
 <p align="center">
-<img src="a/frontend/src/ssets/screenshots/uploadDocument.jpg" width="100%" alt="Upload Documents"/>
+<img src="/frontend/src/ssets/screenshots/uploadDocument.jpg" width="100%" alt="Upload Documents"/>
 </p>
 
 Upload PDF or DOCX files, automatically extract text, generate embeddings, and store vectors inside ChromaDB.
@@ -300,28 +300,19 @@ Return Source References
 
 # 📂 Project Structure
 
+# 📂 Project Structure
+
 ```text
 RAG-Based-Enterprise-Knowledge-Assistant
 │
-├── assets/
-│   ├── logo.png
-│   ├── favicon.png
-│   └── screenshots/
-│       ├── login.jpg
-│       ├── register.jpg
-│       ├── dashboard.jpg
-│       ├── uploadDocument.jpg
-│       ├── chatAssistant.jpg
-│       ├── queryHistory.jpg
-│       └── deleteConfirmation.jpg
-│
 ├── backend/
 │   ├── app/
-│   │   ├── api/
-│   │   ├── models/
+│   │   ├── routes/
 │   │   ├── services/
-│   │   ├── schemas/
-│   │   ├── database/
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   ├── database.py
+│   │   ├── auth.py
 │   │   └── main.py
 │   │
 │   ├── uploads/
@@ -330,16 +321,66 @@ RAG-Based-Enterprise-Knowledge-Assistant
 │   └── .env
 │
 ├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── styles/
-│   │   └── assets/
+│   ├── public/
+│   │   └── favicon.png
 │   │
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── axios.js
+│   │   │
+│   │   ├── assets/
+│   │   │   ├── logo.png
+│   │   │   ├── favicon.png
+│   │   │   └── screenshots/
+│   │   │       ├── login.jpg
+│   │   │       ├── register.jpg
+│   │   │       ├── dashboard.jpg
+│   │   │       ├── uploadDocument.jpg
+│   │   │       ├── chatAssistant.jpg
+│   │   │       ├── queryHistory.jpg
+│   │   │       └── deleteConfirmation.jpg
+│   │   │
+│   │   ├── components/
+│   │   │   ├── ConfirmModal.jsx
+│   │   │   ├── DocumentList.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   └── ProtectedRoute.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Chat.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── History.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── NotFound.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── Upload.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   ├── authService.js
+│   │   │   ├── chatService.js
+│   │   │   └── documentService.js
+│   │   │
+│   │   ├── styles/
+│   │   │   ├── auth.css
+│   │   │   ├── chat.css
+│   │   │   ├── dashboard.css
+│   │   │   ├── history.css
+│   │   │   ├── layout.css
+│   │   │   ├── loading.css
+│   │   │   ├── modal.css
+│   │   │   └── notfound.css
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── index.html
 │   ├── package.json
+│   ├── package-lock.json
 │   └── vite.config.js
 │
+├── .gitignore
 └── README.md
 ```
 

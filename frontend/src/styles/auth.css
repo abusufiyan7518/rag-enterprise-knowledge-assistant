@@ -116,11 +116,6 @@
   box-shadow: 0 12px 24px rgba(37, 99, 235, 0.25);
 }
 
-.auth-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 .auth-error {
   background: #fee2e2;
   color: #991b1b;
@@ -185,4 +180,45 @@
 
 .auth-input-wrapper input {
   padding-left: 42px;
+}
+
+.auth-field-error {
+  margin: 8px 0 0;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.auth-field-hint {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.password-rules {
+  margin-top: 12px;
+  display: grid;
+  gap: 7px;
+}
+
+.password-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.password-rule.valid {
+  color: #16a34a;
+}
+
+.password-rule.invalid {
+  color: #dc2626;
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

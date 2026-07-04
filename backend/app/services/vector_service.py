@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Optional, Any
 
 import chromadb
 
@@ -7,13 +7,22 @@ import chromadb
 CHROMA_DB_PATH = "chroma_db"
 COLLECTION_NAME = "document_chunks"
 
-os.makedirs(CHROMA_DB_PATH, exist_ok=True)
+_collection: Optional[Any] = None
 
-chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
 
-collection = chroma_client.get_or_create_collection(
-    name=COLLECTION_NAME
-)
+def get_collection():
+    global _collection
+
+    if _collection is None:
+        os.makedirs(CHROMA_DB_PATH, exist_ok=True)
+
+        chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+
+        _collection = chroma_client.get_or_create_collection(
+            name=COLLECTION_NAME
+        )
+
+    return _collection
 
 
 def store_document_chunks(
@@ -24,6 +33,8 @@ def store_document_chunks(
 ) -> int:
     if not chunks or not embeddings:
         return 0
+
+    collection = get_collection()
 
     ids = []
     metadatas = []
@@ -52,6 +63,8 @@ def search_similar_chunks(
     top_k: int = 3,
     document_id: int | None = None
 ):
+    collection = get_collection()
+
     where_filter = None
 
     if document_id is not None:
@@ -78,7 +91,10 @@ def search_similar_chunks(
 
     return search_results
 
+
 def delete_document_chunks(document_id: int) -> None:
+    collection = get_collection()
+
     collection.delete(
         where={"document_id": document_id}
     )

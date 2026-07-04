@@ -54,7 +54,7 @@ function Layout({ title, subtitle, children }) {
           </div>
 
           <div>
-            <h2>RAG Assistant</h2>
+            <h2> RAG Assistant</h2>
             <p>Enterprise Knowledge System</p>
           </div>
         </div>

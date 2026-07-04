@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ShieldCheck, User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 
+import logo from "../assets/logo.png";
 import { registerUser } from "../services/authService";
 import "../styles/auth.css";
 
@@ -42,8 +43,7 @@ function Register() {
       }, 1000);
     } catch (error) {
       toast.error(
-        error.response?.data?.detail ||
-          "Unable to register. Please try again."
+        error.response?.data?.detail || "Unable to register. Please try again."
       );
     } finally {
       setLoading(false);
@@ -53,22 +53,7 @@ function Register() {
   return (
     <main className="auth-page">
       <section className="auth-brand">
-        <div
-          style={{
-            width: "72px",
-            height: "72px",
-            borderRadius: "22px",
-            background: "linear-gradient(135deg,#2563eb,#4f46e5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "white",
-            marginBottom: "24px",
-            boxShadow: "0 20px 45px rgba(37,99,235,.30)",
-          }}
-        >
-          <ShieldCheck size={36} />
-        </div>
+        <img src={logo} alt="RAG Assistant Logo" className="auth-logo" />
 
         <h1>Build your AI knowledge workspace</h1>
 
@@ -87,27 +72,14 @@ function Register() {
       <section className="auth-panel">
         <div className="auth-card">
           <h2>Create Account</h2>
-
           <p>Start using your enterprise knowledge assistant.</p>
 
           <form onSubmit={handleSubmit}>
             <div className="auth-field">
               <label>Full Name</label>
-
-              <div style={{ position: "relative" }}>
-                <User
-                  size={18}
-                  style={{
-                    position: "absolute",
-                    left: "14px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    color: "#94a3b8",
-                  }}
-                />
-
+              <div className="auth-input-wrapper">
+                <User className="auth-input-icon" size={18} />
                 <input
-                  style={{ paddingLeft: "42px" }}
                   type="text"
                   name="fullName"
                   value={formData.fullName}
@@ -120,21 +92,9 @@ function Register() {
 
             <div className="auth-field">
               <label>Email Address</label>
-
-              <div style={{ position: "relative" }}>
-                <Mail
-                  size={18}
-                  style={{
-                    position: "absolute",
-                    left: "14px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    color: "#94a3b8",
-                  }}
-                />
-
+              <div className="auth-input-wrapper">
+                <Mail className="auth-input-icon" size={18} />
                 <input
-                  style={{ paddingLeft: "42px" }}
                   type="email"
                   name="email"
                   value={formData.email}
@@ -147,21 +107,9 @@ function Register() {
 
             <div className="auth-field">
               <label>Password</label>
-
-              <div style={{ position: "relative" }}>
-                <Lock
-                  size={18}
-                  style={{
-                    position: "absolute",
-                    left: "14px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    color: "#94a3b8",
-                  }}
-                />
-
+              <div className="auth-input-wrapper">
+                <Lock className="auth-input-icon" size={18} />
                 <input
-                  style={{ paddingLeft: "42px" }}
                   type="password"
                   name="password"
                   value={formData.password}

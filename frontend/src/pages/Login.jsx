@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ShieldCheck, Mail, Lock } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 
+import logo from "../assets/logo.png";
 import { loginUser } from "../services/authService";
 import "../styles/auth.css";
 
@@ -25,7 +26,6 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setLoading(true);
 
     try {
@@ -35,12 +35,10 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       toast.success(`Welcome back, ${data.user.full_name}!`);
-
       navigate("/dashboard");
     } catch (error) {
       toast.error(
-        error.response?.data?.detail ||
-          "Unable to login. Please try again."
+        error.response?.data?.detail || "Unable to login. Please try again."
       );
     } finally {
       setLoading(false);
@@ -50,22 +48,7 @@ function Login() {
   return (
     <main className="auth-page">
       <section className="auth-brand">
-        <div
-          style={{
-            width: "72px",
-            height: "72px",
-            borderRadius: "22px",
-            background: "linear-gradient(135deg,#2563eb,#4f46e5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "white",
-            marginBottom: "24px",
-            boxShadow: "0 20px 45px rgba(37,99,235,.30)",
-          }}
-        >
-          <ShieldCheck size={36} />
-        </div>
+        <img src={logo} alt="RAG Assistant Logo" className="auth-logo" />
 
         <h1>Enterprise Knowledge Assistant</h1>
 
@@ -84,31 +67,14 @@ function Login() {
       <section className="auth-panel">
         <div className="auth-card">
           <h2>Welcome Back</h2>
-
           <p>Sign in to continue to your workspace.</p>
 
           <form onSubmit={handleSubmit}>
             <div className="auth-field">
               <label>Email Address</label>
-
-              <div
-                style={{
-                  position: "relative",
-                }}
-              >
-                <Mail
-                  size={18}
-                  style={{
-                    position: "absolute",
-                    left: "14px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    color: "#94a3b8",
-                  }}
-                />
-
+              <div className="auth-input-wrapper">
+                <Mail className="auth-input-icon" size={18} />
                 <input
-                  style={{ paddingLeft: "42px" }}
                   type="email"
                   name="email"
                   value={formData.email}
@@ -121,25 +87,9 @@ function Login() {
 
             <div className="auth-field">
               <label>Password</label>
-
-              <div
-                style={{
-                  position: "relative",
-                }}
-              >
-                <Lock
-                  size={18}
-                  style={{
-                    position: "absolute",
-                    left: "14px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    color: "#94a3b8",
-                  }}
-                />
-
+              <div className="auth-input-wrapper">
+                <Lock className="auth-input-icon" size={18} />
                 <input
-                  style={{ paddingLeft: "42px" }}
                   type="password"
                   name="password"
                   value={formData.password}
@@ -150,11 +100,7 @@ function Login() {
               </div>
             </div>
 
-            <button
-              className="auth-button"
-              type="submit"
-              disabled={loading}
-            >
+            <button className="auth-button" type="submit" disabled={loading}>
               {loading ? "Signing In..." : "Login"}
             </button>
           </form>

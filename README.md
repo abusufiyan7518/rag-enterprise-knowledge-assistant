@@ -143,7 +143,7 @@ This significantly improves answer accuracy while reducing hallucinations.
 ## 🔐 Login
 
 <p align="center">
-<img src="assets/screenshots/login.jpg" width="100%" alt="Login Page"/>
+<img src="/frontend/src/assets/screenshots/login.jpg" width="100%" alt="Login Page"/>
 </p>
 
 Modern and secure authentication interface with JWT-based login, responsive design, toast notifications, and enterprise branding.
@@ -153,7 +153,7 @@ Modern and secure authentication interface with JWT-based login, responsive desi
 ## 📝 Register
 
 <p align="center">
-<img src="assets/screenshots/register.jpg" width="100%" alt="Register Page"/>
+<img src="/frontend/src/assets/screenshots/register.jpg" width="100%" alt="Register Page"/>
 </p>
 
 User registration with input validation, password encryption, clean UI, and secure account creation.
@@ -163,7 +163,7 @@ User registration with input validation, password encryption, clean UI, and secu
 ## 📊 Dashboard
 
 <p align="center">
-<img src="assets/screenshots/dashboard.jpg" width="100%" alt="Dashboard"/>
+<img src="/frontend/src/assets/screenshots/dashboard.jpg" width="100%" alt="Dashboard"/>
 </p>
 
 A premium dashboard providing quick insights into uploaded documents, query history, AI engine status, and navigation to core modules.
@@ -173,7 +173,7 @@ A premium dashboard providing quick insights into uploaded documents, query hist
 ## 📂 Document Upload
 
 <p align="center">
-<img src="assets/screenshots/uploadDocument.jpg" width="100%" alt="Upload Documents"/>
+<img src="a/frontend/src/ssets/screenshots/uploadDocument.jpg" width="100%" alt="Upload Documents"/>
 </p>
 
 Upload PDF or DOCX files, automatically extract text, generate embeddings, and store vectors inside ChromaDB.
@@ -183,7 +183,7 @@ Upload PDF or DOCX files, automatically extract text, generate embeddings, and s
 ## 🤖 AI Chat Assistant
 
 <p align="center">
-<img src="assets/screenshots/chatAssistant.jpg" width="100%" alt="Chat Assistant"/>
+<img src="/frontend/src/assets/screenshots/chatAssistant.jpg" width="100%" alt="Chat Assistant"/>
 </p>
 
 Ask natural language questions about uploaded documents and receive accurate AI-generated responses with source citations.
@@ -193,7 +193,7 @@ Ask natural language questions about uploaded documents and receive accurate AI-
 ## 📜 Query History
 
 <p align="center">
-<img src="assets/screenshots/queryHistory.jpg" width="100%" alt="Query History"/>
+<img src="/frontend/src/assets/screenshots/queryHistory.jpg" width="100%" alt="Query History"/>
 </p>
 
 Review previously asked questions along with generated answers and timestamps.
@@ -203,7 +203,7 @@ Review previously asked questions along with generated answers and timestamps.
 ## 🗑 Delete Confirmation
 
 <p align="center">
-<img src="assets/screenshots/deleteConfirmation.jpg" width="100%" alt="Delete Confirmation"/>
+<img src="/frontend/src/assets/screenshots/deleteConfirmation.jpg" width="100%" alt="Delete Confirmation"/>
 </p>
 
 Professional confirmation modal prevents accidental document deletion and improves user experience.
@@ -382,7 +382,7 @@ Before starting, ensure the following software is installed on your system.
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/RAG-Based-Enterprise-Knowledge-Assistant.git
+git clone https://github.com/abusufiyan7518/rag-enterprise-knowledge-assistant.git
 
 cd RAG-Based-Enterprise-Knowledge-Assistant/backend
 ```

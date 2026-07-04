@@ -7,60 +7,54 @@
 ### Enterprise-grade AI Document Search powered by FastAPI, React, ChromaDB & Gemini AI
 
 <p align="center">
-
-<img src="https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python"/>
-
+<img src="https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python"/>
 <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi"/>
-
 <img src="https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react"/>
-
 <img src="https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&logo=postgresql"/>
-
 <img src="https://img.shields.io/badge/ChromaDB-VectorDB-7B61FF?style=for-the-badge"/>
-
 <img src="https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google"/>
-
 <img src="https://img.shields.io/badge/JWT-Authentication-black?style=for-the-badge"/>
-
-<img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge"/>
-
 </p>
 
----
+### 🧠 AI-Powered Enterprise Knowledge Retrieval using Retrieval-Augmented Generation
 
-### 🧠 AI-Powered Enterprise Knowledge Retrieval using Retrieval-Augmented Generation (RAG)
-
-Upload enterprise documents, generate semantic embeddings, search through vector databases, and receive accurate AI-generated answers backed by source citations.
+Upload PDF/DOCX documents, generate semantic embeddings, search through vector databases, and receive accurate AI-generated answers backed by source references.
 
 </div>
 
 ---
 
-# ✨ Project Overview
+## 🌐 Live Links
+
+- **Live Demo:** https://rag-enterprise-knowledge-assistant.vercel.app
+- **Backend API:** https://rag-enterprise-knowledge-assistant-api.onrender.com
+- **API Documentation:** https://rag-enterprise-knowledge-assistant-api.onrender.com/docs
+- **Demo Video:** [Watch Demo](frontend/src/assets/screenshots/demo_video.mp4)
+
+---
+
+## ✨ Project Overview
 
 Traditional keyword-based search systems often fail to understand natural language queries across large enterprise documents.
 
 This project solves that challenge by implementing a complete **Retrieval-Augmented Generation (RAG)** pipeline.
 
-Instead of allowing the language model to answer from its own knowledge, the assistant first retrieves the most relevant document chunks from a vector database and then generates responses strictly from that retrieved context.
-
-This significantly improves answer accuracy while reducing hallucinations.
+The assistant retrieves the most relevant document chunks from ChromaDB and then sends that context to Gemini AI to generate accurate, source-backed answers.
 
 ---
 
-# 🎯 Key Features
+## 🎯 Key Features
 
-## 🔐 Authentication
+### 🔐 Authentication
 
-- Secure User Registration
+- User Registration
+- User Login
 - JWT Authentication
 - Password Hashing using bcrypt
 - Protected Routes
-- Session Management
+- Frontend and Backend Validation
 
----
-
-## 📄 Document Management
+### 📄 Document Management
 
 - Upload PDF Documents
 - Upload DOCX Documents
@@ -70,33 +64,27 @@ This significantly improves answer accuracy while reducing hallucinations.
 - Document Deletion
 - Upload Validation
 
----
+### 🧠 AI Processing
 
-## 🧠 AI Processing
-
-- Intelligent Text Chunking
-- Sentence Transformer Embeddings
+- Text Chunking
+- Gemini Embedding API
 - ChromaDB Vector Storage
 - Semantic Similarity Search
 - Context Retrieval
-- Gemini 2.5 Flash Integration
+- Gemini 2.5 Flash Answer Generation
 - Source-backed AI Responses
 
----
-
-## 💬 Chat Assistant
+### 💬 Chat Assistant
 
 - Natural Language Questions
-- AI Generated Answers
-- Source Citations
+- AI-generated Answers
+- Source References
 - Loading Indicators
 - Auto Scroll
 - Document Selection
 - Premium Chat Interface
 
----
-
-## 📜 Query History
+### 📜 Query History
 
 - Previous Questions
 - AI Responses
@@ -106,154 +94,87 @@ This significantly improves answer accuracy while reducing hallucinations.
 
 ---
 
-## 🎨 Frontend Features
-
-- Modern Dashboard
-- Premium UI Design
-- Responsive Layout
-- Toast Notifications
-- Loading Animations
-- Empty States
-- Confirmation Modals
-- Lucide React Icons
-- Protected Navigation
-
----
-
-# 🛠 Tech Stack
+## 🛠 Tech Stack
 
 | Category | Technology |
 |-----------|------------|
 | Frontend | React.js + Vite |
 | Backend | FastAPI |
-| Database | PostgreSQL |
+| Database | PostgreSQL / Neon |
 | Vector Database | ChromaDB |
 | ORM | SQLAlchemy |
-| Authentication | JWT + Passlib (bcrypt) |
-| Embedding Model | Sentence Transformers (all-MiniLM-L6-v2) |
-| Large Language Model | Google Gemini 2.5 Flash |
+| Authentication | JWT + Passlib bcrypt |
+| Embedding Model | Gemini Embedding API |
+| LLM | Google Gemini 2.5 Flash |
 | Styling | CSS3 |
 | Icons | Lucide React |
 | HTTP Client | Axios |
+| Deployment | Vercel + Render |
 
 ---
 
-# 📸 Application Screenshots
+## 📸 Application Screenshots
 
-## 🔐 Login
+### 🔐 Login
 
-<p align="center">
-<img src="/frontend/src/assets/screenshots/login.jpg" width="100%" alt="Login Page"/>
-</p>
+<img src="frontend/src/assets/screenshots/login.jpg" width="100%" alt="Login Page"/>
 
-Modern and secure authentication interface with JWT-based login, responsive design, toast notifications, and enterprise branding.
+### 📝 Register
 
----
+<img src="frontend/src/assets/screenshots/register.jpg" width="100%" alt="Register Page"/>
 
-## 📝 Register
+### 📊 Dashboard
 
-<p align="center">
-<img src="/frontend/src/assets/screenshots/register.jpg" width="100%" alt="Register Page"/>
-</p>
+<img src="frontend/src/assets/screenshots/dashboard.jpg" width="100%" alt="Dashboard"/>
 
-User registration with input validation, password encryption, clean UI, and secure account creation.
+### 📂 Document Upload
 
----
+<img src="frontend/src/assets/screenshots/uploadDocument.jpg" width="100%" alt="Document Upload"/>
 
-## 📊 Dashboard
+### 🤖 AI Chat Assistant
 
-<p align="center">
-<img src="/frontend/src/assets/screenshots/dashboard.jpg" width="100%" alt="Dashboard"/>
-</p>
+<img src="frontend/src/assets/screenshots/chatAssistant.jpg" width="100%" alt="Chat Assistant"/>
 
-A premium dashboard providing quick insights into uploaded documents, query history, AI engine status, and navigation to core modules.
+### 📜 Query History
 
----
+<img src="frontend/src/assets/screenshots/queryHistory.jpg" width="100%" alt="Query History"/>
 
-## 📂 Document Upload
+### 🗑 Delete Confirmation
 
-<p align="center">
-<img src="frontend\src\assets\screenshots\uploadDocument.jpg" width="100%" alt="Upload Documents"/>
-</p>
+<img src="frontend/src/assets/screenshots/deleteConfirmation.jpg" width="100%" alt="Delete Confirmation"/>
 
-Upload PDF or DOCX files, automatically extract text, generate embeddings, and store vectors inside ChromaDB.
+### 📘 Swagger API Documentation
+
+<img src="frontend/src/assets/screenshots/SwaggerAPI.jpg" width="100%" alt="Swagger API Documentation"/>
 
 ---
 
-## 🤖 AI Chat Assistant
-
-<p align="center">
-<img src="/frontend/src/assets/screenshots/chatAssistant.jpg" width="100%" alt="Chat Assistant"/>
-</p>
-
-Ask natural language questions about uploaded documents and receive accurate AI-generated responses with source citations.
-
----
-
-## 📜 Query History
-
-<p align="center">
-<img src="/frontend/src/assets/screenshots/queryHistory.jpg" width="100%" alt="Query History"/>
-</p>
-
-Review previously asked questions along with generated answers and timestamps.
-
----
-
-## 🗑 Delete Confirmation
-
-<p align="center">
-<img src="/frontend/src/assets/screenshots/deleteConfirmation.jpg" width="100%" alt="Delete Confirmation"/>
-</p>
-
-Professional confirmation modal prevents accidental document deletion and improves user experience.
-
----
-
-# 🏗 System Architecture
+## 🏗 System Architecture
 
 ```text
-                     User
-                       │
-                       ▼
-        ┌──────────────────────────┐
-        │ React Frontend (Vite)    │
-        └──────────────────────────┘
-                       │
-                  Axios API Calls
-                       │
-                       ▼
-        ┌──────────────────────────┐
-        │ FastAPI Backend          │
-        └──────────────────────────┘
-                       │
-         ┌─────────────┴─────────────┐
-         │                           │
-         ▼                           ▼
- PostgreSQL                     ChromaDB
-(User Data)                 (Vector Embeddings)
-         │                           ▲
-         │                           │
-         │                 Sentence Transformers
-         │                 all-MiniLM-L6-v2
-         │                           │
-         └─────────────┬─────────────┘
-                       ▼
-              Relevant Chunks
-                       │
-                       ▼
-              Google Gemini AI
-                       │
-                       ▼
-              AI Generated Answer
-                       │
-                       ▼
-                 Source References
+User
+ │
+ ▼
+React Frontend (Vercel)
+ │
+ ▼
+FastAPI Backend (Render)
+ │
+ ├── PostgreSQL / Neon
+ │
+ ├── Gemini Embedding API
+ │
+ ├── ChromaDB Vector Store
+ │
+ └── Gemini 2.5 Flash
+ │
+ ▼
+AI Generated Answer + Source References
 ```
 
 ---
 
-# 🔄 RAG Pipeline
+## 🔄 RAG Pipeline
 
 ```text
 Upload PDF / DOCX
@@ -262,16 +183,15 @@ Upload PDF / DOCX
 Extract Text
         │
         ▼
-Split into Chunks
+Split Text into Chunks
         │
         ▼
-Generate Embeddings
+Generate Embeddings using Gemini Embedding API
         │
         ▼
-Store in ChromaDB
+Store Embeddings in ChromaDB
         │
         ▼
-─────────────────────────────────────
 User asks a Question
         │
         ▼
@@ -281,44 +201,41 @@ Generate Question Embedding
 Semantic Similarity Search
         │
         ▼
-Retrieve Top Relevant Chunks
+Retrieve Relevant Chunks
         │
         ▼
-Send Context + Question
+Send Context + Question to Gemini
         │
         ▼
-Google Gemini
+Generate Final Answer
         │
         ▼
-Final AI Response
-        │
-        ▼
-Return Source References
+Return Answer with Source References
 ```
 
 ---
 
-# 📂 Project Structure
-
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```text
-RAG-Based-Enterprise-Knowledge-Assistant
+rag-enterprise-knowledge-assistant
 │
 ├── backend/
 │   ├── app/
 │   │   ├── routes/
 │   │   ├── services/
-│   │   ├── models.py
-│   │   ├── schemas.py
-│   │   ├── database.py
 │   │   ├── auth.py
-│   │   └── main.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   └── schemas.py
 │   │
 │   ├── uploads/
 │   ├── chroma_db/
 │   ├── requirements.txt
-│   └── .env
+│   ├── runtime.txt
+│   └── .env.example
 │
 ├── frontend/
 │   ├── public/
@@ -326,58 +243,20 @@ RAG-Based-Enterprise-Knowledge-Assistant
 │   │
 │   ├── src/
 │   │   ├── api/
-│   │   │   └── axios.js
-│   │   │
 │   │   ├── assets/
 │   │   │   ├── logo.png
 │   │   │   ├── favicon.png
 │   │   │   └── screenshots/
-│   │   │       ├── login.jpg
-│   │   │       ├── register.jpg
-│   │   │       ├── dashboard.jpg
-│   │   │       ├── uploadDocument.jpg
-│   │   │       ├── chatAssistant.jpg
-│   │   │       ├── queryHistory.jpg
-│   │   │       └── deleteConfirmation.jpg
-│   │   │
 │   │   ├── components/
-│   │   │   ├── ConfirmModal.jsx
-│   │   │   ├── DocumentList.jsx
-│   │   │   ├── Layout.jsx
-│   │   │   ├── LoadingSpinner.jsx
-│   │   │   └── ProtectedRoute.jsx
-│   │   │
 │   │   ├── pages/
-│   │   │   ├── Chat.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── History.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── NotFound.jsx
-│   │   │   ├── Register.jsx
-│   │   │   └── Upload.jsx
-│   │   │
 │   │   ├── services/
-│   │   │   ├── authService.js
-│   │   │   ├── chatService.js
-│   │   │   └── documentService.js
-│   │   │
 │   │   ├── styles/
-│   │   │   ├── auth.css
-│   │   │   ├── chat.css
-│   │   │   ├── dashboard.css
-│   │   │   ├── history.css
-│   │   │   ├── layout.css
-│   │   │   ├── loading.css
-│   │   │   ├── modal.css
-│   │   │   └── notfound.css
-│   │   │
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
 │   │
 │   ├── index.html
 │   ├── package.json
-│   ├── package-lock.json
 │   └── vite.config.js
 │
 ├── .gitignore
@@ -386,33 +265,15 @@ RAG-Based-Enterprise-Knowledge-Assistant
 
 ---
 
-# ⚙ Core Modules
+## 🚀 Getting Started
 
-| Module | Description |
-|----------|-------------|
-| Authentication | JWT-based secure login and registration |
-| Document Upload | Upload and process PDF/DOCX files |
-| Text Processing | Extract and chunk document content |
-| Embedding Engine | Generate semantic embeddings |
-| Vector Database | Store embeddings in ChromaDB |
-| Semantic Search | Retrieve relevant document chunks |
-| Gemini Integration | Generate context-aware answers |
-| Query History | Store and display previous conversations |
-| Dashboard | Monitor documents and application usage |
+### 📋 Prerequisites
 
-# 🚀 Getting Started
-
-Follow the steps below to run the project locally.
-
----
-
-# 📋 Prerequisites
-
-Before starting, ensure the following software is installed on your system.
+Before running the project, make sure you have the following installed:
 
 - Python 3.11+
 - Node.js 20+
-- PostgreSQL
+- PostgreSQL (or Neon PostgreSQL)
 - Git
 - Google Gemini API Key
 
@@ -420,21 +281,21 @@ Before starting, ensure the following software is installed on your system.
 
 # ⚙ Backend Setup
 
-Clone the repository:
+Clone the repository
 
 ```bash
 git clone https://github.com/abusufiyan7518/rag-enterprise-knowledge-assistant.git
 
-cd RAG-Based-Enterprise-Knowledge-Assistant/backend
+cd rag-enterprise-knowledge-assistant/backend
 ```
 
-Create a virtual environment:
+Create a virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate the virtual environment
+Activate virtual environment
 
 ### Windows
 
@@ -454,9 +315,7 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Create a `.env` file inside the backend folder.
-
-Example:
+Create a `.env` file
 
 ```env
 DATABASE_URL=
@@ -472,21 +331,21 @@ GEMINI_API_KEY=
 GEMINI_MODEL=gemini-2.5-flash
 ```
 
-Run the backend server
+Run backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Backend will be available at
+Backend URL
 
-```
+```text
 http://127.0.0.1:8000
 ```
 
 Swagger Documentation
 
-```
+```text
 http://127.0.0.1:8000/docs
 ```
 
@@ -494,35 +353,33 @@ http://127.0.0.1:8000/docs
 
 # 💻 Frontend Setup
 
-Open a new terminal.
+Open another terminal
 
 ```bash
 cd frontend
 ```
 
-Install dependencies
+Install packages
 
 ```bash
 npm install
 ```
 
-Create a `.env` file inside the frontend folder.
-
-Example
+Create `.env`
 
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
-Start the frontend
+Run frontend
 
 ```bash
 npm run dev
 ```
 
-Application
+Frontend URL
 
-```
+```text
 http://localhost:5173
 ```
 
@@ -534,12 +391,12 @@ http://localhost:5173
 
 | Variable | Description |
 |-----------|-------------|
-| DATABASE_URL | PostgreSQL Connection String |
+| DATABASE_URL | PostgreSQL / Neon Database URL |
 | SECRET_KEY | JWT Secret Key |
 | ALGORITHM | JWT Algorithm |
-| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Expiry Time |
+| ACCESS_TOKEN_EXPIRE_MINUTES | JWT Token Expiry |
 | GEMINI_API_KEY | Google Gemini API Key |
-| GEMINI_MODEL | Gemini Model Name |
+| GEMINI_MODEL | Gemini Model |
 
 ---
 
@@ -566,17 +423,17 @@ http://localhost:5173
 
 | Method | Endpoint | Description |
 |----------|----------|-------------|
-| GET | `/api/documents` | List uploaded documents |
-| POST | `/api/documents/upload` | Upload PDF or DOCX |
+| GET | `/api/documents/` | List uploaded documents |
+| POST | `/api/documents/upload` | Upload PDF/DOCX |
 | DELETE | `/api/documents/{id}` | Delete document |
 
 ---
 
-## AI Chat
+## Chat
 
 | Method | Endpoint | Description |
 |----------|----------|-------------|
-| POST | `/api/chat/ask` | Ask a question |
+| POST | `/api/chat/ask` | Ask question |
 | GET | `/api/chat/history` | Fetch query history |
 
 ---
@@ -589,11 +446,12 @@ http://localhost:5173
 - SQLAlchemy
 - PostgreSQL
 - ChromaDB
-- Sentence Transformers
+- Google Gemini AI
 - Passlib (bcrypt)
-- PyJWT
+- Python JOSE (JWT)
 - Python Multipart
-- Google Generative AI
+- PyMuPDF
+- Python DOCX
 
 ---
 
@@ -611,26 +469,28 @@ http://localhost:5173
 # 🔒 Security Features
 
 - JWT Authentication
-- Password Hashing using bcrypt
-- Protected Routes
+- Password Hashing (bcrypt)
+- Protected API Routes
+- Protected Frontend Routes
 - User-wise Document Isolation
 - User-wise Query History
-- Environment Variables
-- Input Validation
+- Backend Validation
+- Frontend Validation
+- Secure Environment Variables
 - Secure API Responses
 
 ---
 
 # ⚡ Performance Optimizations
 
-- Semantic Vector Search
-- Chunk-based Retrieval
+- Vector Similarity Search
+- ChromaDB Persistent Storage
+- Gemini Embedding API
+- Context-based Retrieval
 - Optimized React Components
+- Reusable UI Components
 - Auto Scroll Chat
-- Loading Skeletons
-- Lazy UI Rendering
-- Toast Notifications
-- Reusable Components
+- Loading Indicators
 - Responsive Layout
 
 ---
@@ -639,39 +499,30 @@ http://localhost:5173
 
 - ✅ User Registration
 - ✅ User Login
+- ✅ Form Validation
 - ✅ JWT Authentication
 - ✅ Protected Routes
-- ✅ Upload PDF
-- ✅ Upload DOCX
-- ✅ Delete Documents
+- ✅ PDF Upload
+- ✅ DOCX Upload
+- ✅ Document Listing
+- ✅ Document Deletion
 - ✅ Semantic Search
-- ✅ Gemini Responses
+- ✅ Gemini AI Responses
 - ✅ Source References
 - ✅ Query History
 - ✅ Responsive UI
-- ✅ Production Build
+- ✅ Production Deployment
+
+---
 
 # 🚀 Deployment
 
-The application can be deployed using the following platforms.
-
-## Frontend
-
-- Vercel
-- Netlify
-
-## Backend
-
-- Render
-- Railway
-
-## Database
-
-- PostgreSQL (Render / Railway / Supabase)
-
-## Vector Database
-
-- ChromaDB
+| Layer | Platform |
+|--------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | Neon PostgreSQL |
+| Vector Database | ChromaDB |
 
 ---
 
@@ -682,48 +533,18 @@ The following features are planned for future releases.
 - Multi-document semantic search
 - Conversation memory
 - Streaming AI responses
-- Role-based access control (RBAC)
-- Admin dashboard
-- User profile management
 - Drag & Drop document upload
 - OCR support for scanned PDFs
-- Docker containerization
-- CI/CD pipeline
+- Role-Based Access Control (RBAC)
+- Admin Dashboard
+- User Profile Management
+- Docker Deployment
+- CI/CD Pipeline (GitHub Actions)
 - Unit & Integration Testing
-- Cloud object storage (AWS S3)
-- Multi-language document support
-- Export chat conversations
-- AI-generated document summaries
-
----
-
-# 📊 Project Highlights
-
-✔ Enterprise Authentication
-
-✔ JWT Protected Routes
-
-✔ PDF & DOCX Support
-
-✔ Semantic Search
-
-✔ ChromaDB Vector Database
-
-✔ Sentence Transformer Embeddings
-
-✔ Google Gemini Integration
-
-✔ Source-backed AI Responses
-
-✔ Query History
-
-✔ Modern React Dashboard
-
-✔ Premium UI/UX
-
-✔ Responsive Design
-
-✔ Production Ready Architecture
+- Cloud Object Storage (AWS S3)
+- AI-generated Document Summaries
+- Multi-language Document Support
+- Export Chat Conversations
 
 ---
 
@@ -734,31 +555,36 @@ This project helped strengthen practical knowledge in:
 - Retrieval-Augmented Generation (RAG)
 - FastAPI Backend Development
 - React Frontend Development
+- REST API Development
 - JWT Authentication
+- PostgreSQL Database Design
 - SQLAlchemy ORM
-- PostgreSQL
-- ChromaDB
-- Sentence Transformers
+- ChromaDB Vector Database
 - Google Gemini API
-- REST API Design
-- Component-based UI Development
-- Secure Application Development
+- Gemini Embedding API
+- Semantic Search
+- Prompt Engineering
+- Production Deployment
+- Full Stack Application Development
 - Modern Software Architecture
+- Secure Authentication
+- Responsive UI Design
+- Error Handling & Validation
 
 ---
 
 # 🤝 Contributing
 
-Contributions are welcome.
+Contributions are welcome!
 
 If you'd like to improve this project:
 
 1. Fork the repository
 
-2. Create your feature branch
+2. Create a new branch
 
 ```bash
-git checkout -b feature/new-feature
+git checkout -b feature/your-feature
 ```
 
 3. Commit your changes
@@ -767,10 +593,10 @@ git checkout -b feature/new-feature
 git commit -m "Add new feature"
 ```
 
-4. Push to your branch
+4. Push the branch
 
 ```bash
-git push origin feature/new-feature
+git push origin feature/your-feature
 ```
 
 5. Open a Pull Request
@@ -793,11 +619,47 @@ Feel free to use this project for educational and learning purposes.
 
 Passionate about building scalable backend systems, AI-powered applications, REST APIs, and enterprise software using Python.
 
-### Connect with me
+### 📫 Connect with Me
 
-- GitHub: https://github.com/abusufiyan7518
-- LinkedIn: https://www.linkedin.com/in/abusufiyan-822b9827b/
-- Email: abusufiyantechsak@gmail.com
+- **GitHub:** https://github.com/abusufiyan7518
+- **LinkedIn:** https://www.linkedin.com/in/abusufiyan-822b9827b/
+- **Email:** abusufiyantechsak@gmail.com
+
+---
+
+# 🌟 Project Highlights
+
+- ✅ Enterprise-grade Authentication
+- ✅ Secure JWT Authorization
+- ✅ Google Gemini AI Integration
+- ✅ Gemini Embedding API
+- ✅ ChromaDB Vector Search
+- ✅ Retrieval-Augmented Generation (RAG)
+- ✅ Semantic Search
+- ✅ PDF & DOCX Processing
+- ✅ Query History
+- ✅ Source-backed AI Responses
+- ✅ Responsive React UI
+- ✅ Production Deployment
+- ✅ Clean Project Architecture
+
+---
+
+# 🙏 Acknowledgements
+
+Special thanks to the amazing technologies and communities behind this project:
+
+- Google Gemini AI
+- FastAPI
+- React
+- PostgreSQL
+- Neon
+- ChromaDB
+- SQLAlchemy
+- Vercel
+- Render
+- Lucide React
+- Open Source Community
 
 ---
 
@@ -807,31 +669,18 @@ If you found this project useful,
 
 please consider giving it a ⭐ on GitHub.
 
-It helps others discover the project and motivates future improvements.
-
----
-
-# 🙏 Acknowledgements
-
-Special thanks to:
-
-- Google Gemini AI
-- FastAPI
-- ChromaDB
-- Sentence Transformers
-- React
-- PostgreSQL
-- Lucide React
-- Open Source Community
+It motivates me to continue building and sharing high-quality open-source projects.
 
 ---
 
 <div align="center">
 
-## 🚀 Built with FastAPI, React, ChromaDB & Gemini AI
+## 🚀 Built with ❤️ using FastAPI, React, ChromaDB & Gemini AI
 
-### Designed & Developed by ABUSUFIYAN
+### Designed & Developed by Abusufiyan
 
-⭐ Thank you for visiting this repository.
+### ⭐ Thanks for visiting this repository!
+
+<img src="frontend/src/assets/logo.png" width="90"/>
 
 </div>

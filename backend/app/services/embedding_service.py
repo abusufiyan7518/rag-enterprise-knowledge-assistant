@@ -1,26 +1,25 @@
 from typing import List
 
-import google.generativeai as genai
+from google import genai
 
 from app.config import settings
 
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
-EMBEDDING_MODEL = "models/embedding-001"
+EMBEDDING_MODEL = "gemini-embedding-001"
 
 
 def generate_embedding(text: str) -> List[float]:
     if not text:
         return []
 
-    response = genai.embed_content(
+    response = client.models.embed_content(
         model=EMBEDDING_MODEL,
-        content=text,
-        task_type="retrieval_query"
+        contents=text
     )
 
-    return response["embedding"]
+    return response.embeddings[0].values
 
 
 def generate_embeddings(text_chunks: List[str]) -> List[List[float]]:
@@ -30,12 +29,11 @@ def generate_embeddings(text_chunks: List[str]) -> List[List[float]]:
     embeddings = []
 
     for chunk in text_chunks:
-        response = genai.embed_content(
+        response = client.models.embed_content(
             model=EMBEDDING_MODEL,
-            content=chunk,
-            task_type="retrieval_document"
+            contents=chunk
         )
 
-        embeddings.append(response["embedding"])
+        embeddings.append(response.embeddings[0].values)
 
     return embeddings

@@ -16,3 +16,4 @@ python-docx
 
 chromadb
 google-generativeai
+google-genai

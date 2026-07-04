@@ -101,12 +101,12 @@ function Login() {
             </div>
 
             <button className="auth-button" type="submit" disabled={loading}>
-              {loading ? "Signing In..." : "Login"}
+              {loading ? "Signing In..." : "Sign In"}
             </button>
           </form>
 
           <div className="auth-switch">
-            New here? <Link to="/register">Create an account</Link>
+            Don't have an account? <Link to="/register">Sign Up</Link>
           </div>
         </div>
       </section>

@@ -1,6 +1,14 @@
 import { useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { User, Mail, Lock, CheckCircle2, XCircle } from "lucide-react";
+import {
+  User,
+  Mail,
+  Lock,
+  CheckCircle2,
+  Circle,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import toast from "react-hot-toast";
 
 import logo from "../assets/logo.png";
@@ -14,14 +22,19 @@ function Register() {
     fullName: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [touched, setTouched] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const nameValidation = useMemo(() => {
     const name = formData.fullName.trim();
 
-    if (!name) return "";
+    if (!name) return "Full name is required.";
     if (name.length < 3) return "Name must be at least 3 characters.";
     if (name.length > 50) return "Name cannot exceed 50 characters.";
     if (!/^[A-Za-z ]+$/.test(name)) {
@@ -34,9 +47,9 @@ function Register() {
   const emailValidation = useMemo(() => {
     const email = formData.email.trim();
 
-    if (!email) return "";
+    if (!email) return "Email address is required.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return "Enter a valid email address.";
+      return "Please enter a valid email address.";
     }
 
     return "";
@@ -44,24 +57,12 @@ function Register() {
 
   const passwordRules = useMemo(
     () => [
+      { label: "8+ characters", isValid: formData.password.length >= 8 },
+      { label: "Uppercase letter", isValid: /[A-Z]/.test(formData.password) },
+      { label: "Lowercase letter", isValid: /[a-z]/.test(formData.password) },
+      { label: "One number", isValid: /\d/.test(formData.password) },
       {
-        label: "Minimum 8 characters",
-        isValid: formData.password.length >= 8,
-      },
-      {
-        label: "At least one uppercase letter",
-        isValid: /[A-Z]/.test(formData.password),
-      },
-      {
-        label: "At least one lowercase letter",
-        isValid: /[a-z]/.test(formData.password),
-      },
-      {
-        label: "At least one number",
-        isValid: /\d/.test(formData.password),
-      },
-      {
-        label: "At least one special character",
+        label: "Special character",
         isValid: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password),
       },
     ],
@@ -70,13 +71,22 @@ function Register() {
 
   const isPasswordValid = passwordRules.every((rule) => rule.isValid);
 
+  const confirmPasswordValidation =
+    formData.confirmPassword && formData.password !== formData.confirmPassword
+      ? "Passwords do not match."
+      : "";
+
   const isFormValid =
     formData.fullName.trim() &&
     formData.email.trim() &&
     formData.password &&
+    formData.confirmPassword &&
     !nameValidation &&
     !emailValidation &&
+    !confirmPasswordValidation &&
     isPasswordValid;
+
+  const shouldShowError = (field) => submitted || touched[field];
 
   const handleChange = (event) => {
     setFormData({
@@ -85,11 +95,19 @@ function Register() {
     });
   };
 
+  const handleBlur = (event) => {
+    setTouched({
+      ...touched,
+      [event.target.name]: true,
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setSubmitted(true);
 
     if (!isFormValid) {
-      toast.error("Please fix the validation errors before submitting.");
+      toast.error("Please complete all required fields correctly.");
       return;
     }
 
@@ -147,6 +165,7 @@ function Register() {
           <form onSubmit={handleSubmit}>
             <div className="auth-field">
               <label>Full Name</label>
+
               <div className="auth-input-wrapper">
                 <User className="auth-input-icon" size={18} />
                 <input
@@ -154,6 +173,7 @@ function Register() {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter your full name"
                   required
                   minLength={3}
@@ -161,17 +181,14 @@ function Register() {
                 />
               </div>
 
-              {nameValidation && (
+              {shouldShowError("fullName") && nameValidation && (
                 <p className="auth-field-error">{nameValidation}</p>
               )}
-
-              <p className="auth-field-hint">
-                Name must be 3-50 characters and contain only letters/spaces.
-              </p>
             </div>
 
             <div className="auth-field">
               <label>Email Address</label>
+
               <div className="auth-input-wrapper">
                 <Mail className="auth-input-icon" size={18} />
                 <input
@@ -179,50 +196,112 @@ function Register() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter your email"
                   required
                 />
               </div>
 
-              {emailValidation && (
+              {shouldShowError("email") && emailValidation && (
                 <p className="auth-field-error">{emailValidation}</p>
               )}
             </div>
 
             <div className="auth-field">
               <label>Password</label>
+
               <div className="auth-input-wrapper">
                 <Lock className="auth-input-icon" size={18} />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Create a password"
                   required
                   minLength={8}
                 />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
 
-              <div className="password-rules">
-                {passwordRules.map((rule) => (
-                  <div
-                    key={rule.label}
-                    className={
-                      rule.isValid
-                        ? "password-rule valid"
-                        : "password-rule invalid"
-                    }
-                  >
-                    {rule.isValid ? (
-                      <CheckCircle2 size={15} />
-                    ) : (
-                      <XCircle size={15} />
-                    )}
-                    <span>{rule.label}</span>
-                  </div>
-                ))}
+              <div className="password-requirements-card">
+                <p>Password must include:</p>
+
+                <div className="password-requirements-grid">
+                  {passwordRules.map((rule) => (
+                    <div
+                      key={rule.label}
+                      className={
+                        rule.isValid
+                          ? "password-requirement valid"
+                          : "password-requirement"
+                      }
+                    >
+                      {rule.isValid ? (
+                        <CheckCircle2 size={14} />
+                      ) : (
+                        <Circle size={14} />
+                      )}
+                      <span>{rule.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              {shouldShowError("password") && formData.password && !isPasswordValid && (
+                <p className="auth-field-error">
+                  Password does not meet the required criteria.
+                </p>
+              )}
+            </div>
+
+            <div className="auth-field">
+              <label>Confirm Password</label>
+
+              <div className="auth-input-wrapper">
+                <Lock className="auth-input-icon" size={18} />
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Confirm your password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  aria-label="Toggle confirm password visibility"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+                </button>
+              </div>
+
+              {confirmPasswordValidation && (
+                <p className="auth-field-error">{confirmPasswordValidation}</p>
+              )}
+
+              {formData.confirmPassword &&
+                !confirmPasswordValidation &&
+                formData.password && (
+                  <p className="auth-field-success">Passwords match.</p>
+                )}
             </div>
 
             <button
@@ -230,7 +309,7 @@ function Register() {
               type="submit"
               disabled={loading || !isFormValid}
             >
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? "Creating Account..." : "Sign Up"}
             </button>
           </form>
 

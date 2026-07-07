@@ -6,40 +6,81 @@
 
 ### Enterprise-grade AI Document Search powered by FastAPI, React, ChromaDB & Gemini AI
 
-<p align="center">
+<p>
+
 <img src="https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python"/>
+
 <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi"/>
+
 <img src="https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react"/>
+
 <img src="https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&logo=postgresql"/>
+
 <img src="https://img.shields.io/badge/ChromaDB-VectorDB-7B61FF?style=for-the-badge"/>
+
 <img src="https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google"/>
+
 <img src="https://img.shields.io/badge/JWT-Authentication-black?style=for-the-badge"/>
+
 </p>
 
-### 🧠 AI-Powered Enterprise Knowledge Retrieval using Retrieval-Augmented Generation
+### 🧠 AI-Powered Enterprise Knowledge Retrieval using Retrieval-Augmented Generation (RAG)
 
-Upload PDF/DOCX documents, generate semantic embeddings, search through vector databases, and receive accurate AI-generated answers backed by source references.
+Upload PDF & DOCX documents, generate semantic embeddings, perform vector search with ChromaDB, and receive accurate AI-generated answers backed by source references.
 
 </div>
 
 ---
 
-## 🌐 Live Links
+# 🌐 Live Links
 
-- **Live Demo:** https://rag-enterprise-knowledge-assistant.vercel.app
-- **Backend API:** https://rag-enterprise-knowledge-assistant-api.onrender.com
-- **API Documentation:** https://rag-enterprise-knowledge-assistant-api.onrender.com/docs
-- **Demo Video:** [Watch Demo](frontend/src/assets/screenshots/demo_video.mp4)
+<div align="center">
+
+<a href="https://rag-enterprise-knowledge-assistant.vercel.app">
+<img src="https://img.shields.io/badge/🌐_Live_Demo-00C853?style=for-the-badge"/>
+</a>
+
+<a href="https://rag-enterprise-knowledge-assistant-api.onrender.com">
+<img src="https://img.shields.io/badge/⚙️_Backend_API-009688?style=for-the-badge"/>
+</a>
+
+<a href="https://rag-enterprise-knowledge-assistant-api.onrender.com/docs">
+<img src="https://img.shields.io/badge/📘_Swagger_API-2563EB?style=for-the-badge"/>
+</a>
+
+<a href="https://youtu.be/32peZV8rfl4">
+<img src="https://img.shields.io/badge/🎥_Demo_Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/>
+</a>
+
+</div>
+
+---
+
+# 🎥 Project Demonstration
+
+<p align="center">
+
+<a href="https://youtu.be/32peZV8rfl4">
+
+<img src="https://img.youtube.com/vi/32peZV8rfl4/maxresdefault.jpg" width="900" alt="Project Demo"/>
+
+</a>
+
+<br><br>
+
+<b>▶ Click the thumbnail above to watch the complete project demonstration.</b>
+
+</p>
 
 ---
 
 ## ✨ Project Overview
 
-Traditional keyword-based search systems often fail to understand natural language queries across large enterprise documents.
+Traditional keyword-based search systems often struggle to understand natural language queries across large enterprise documents.
 
 This project solves that challenge by implementing a complete **Retrieval-Augmented Generation (RAG)** pipeline.
 
-The assistant retrieves the most relevant document chunks from ChromaDB and then sends that context to Gemini AI to generate accurate, source-backed answers.
+Instead of relying solely on the language model's internal knowledge, the application first retrieves the most relevant document chunks from **ChromaDB** using semantic search. Those retrieved chunks are then passed to **Google Gemini AI**, enabling accurate, context-aware, and source-backed responses while significantly reducing hallucinations.
 
 ---
 

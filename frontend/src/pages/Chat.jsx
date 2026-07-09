@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FileText,
-  Send,
-  Paperclip,
-  Bot,
-  CloudUpload,
-} from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+import { FileText, Send, Paperclip, Bot, CloudUpload } from "lucide-react";
 import toast from "react-hot-toast";
 
 import Layout from "../components/Layout";
@@ -60,7 +57,7 @@ function Chat() {
       return;
     }
 
-    const currentQuestion = question;
+    const currentQuestion = question.trim();
 
     setMessages((prev) => [
       ...prev,
@@ -203,7 +200,15 @@ function Chat() {
             {messages.map((message, index) => (
               <div key={index} className={`message ${message.role}`}>
                 <div className="message-bubble">
-                  {message.content}
+                  {message.role === "assistant" ? (
+                    <div className="markdown-body">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    message.content
+                  )}
 
                   {message.sources && (
                     <div className="source-box">

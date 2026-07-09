@@ -7,6 +7,9 @@ import DocumentList from "../components/DocumentList";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { uploadDocument } from "../services/documentService";
 
+const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
 function Upload() {
   const fileInputRef = useRef(null);
 
@@ -39,6 +42,19 @@ function Upload() {
       return;
     }
 
+    if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+      setFile(null);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
+      toast.error(
+        `File size exceeds ${MAX_FILE_SIZE_MB} MB. Please upload a smaller file.`
+      );
+      return;
+    }
+
     setFile(selectedFile);
     toast.success("File selected successfully.");
   };
@@ -68,7 +84,9 @@ function Upload() {
 
       setRefreshKey((prev) => prev + 1);
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Document upload failed.");
+      toast.error(
+        error.response?.data?.detail || "Document upload failed."
+      );
     } finally {
       setUploading(false);
     }
@@ -124,8 +142,19 @@ function Upload() {
               Drop your file here, or click to browse
             </h2>
 
-            <p style={{ margin: "0 0 20px", color: "#64748b" }}>
+            <p style={{ margin: "0 0 6px", color: "#64748b" }}>
               Supports PDF and DOCX files
+            </p>
+
+            <p
+              style={{
+                margin: "0 0 20px",
+                color: "#64748b",
+                fontSize: "14px",
+                fontWeight: "600",
+              }}
+            >
+              Maximum file size: {MAX_FILE_SIZE_MB} MB
             </p>
 
             <button
@@ -137,14 +166,46 @@ function Upload() {
             </button>
 
             {file && (
-              <p style={{ marginTop: "16px", fontWeight: "800" }}>
-                Selected: {file.name}
-              </p>
+              <div
+                style={{
+                  marginTop: "18px",
+                  padding: "12px 18px",
+                  borderRadius: "12px",
+                  background: "#eff6ff",
+                  border: "1px solid #bfdbfe",
+                  maxWidth: "100%",
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    fontWeight: "700",
+                    color: "#1e3a8a",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {file.name}
+                </p>
+
+                <p
+                  style={{
+                    marginTop: "6px",
+                    color: "#64748b",
+                    fontSize: "14px",
+                  }}
+                >
+                  Size: {(file.size / (1024 * 1024)).toFixed(2)} MB
+                </p>
+              </div>
             )}
           </div>
 
           <div style={{ marginTop: "22px" }}>
-            <button className="primary-btn" type="submit" disabled={uploading}>
+            <button
+              className="primary-btn"
+              type="submit"
+              disabled={uploading}
+            >
               {uploading ? "Processing..." : "Upload Document"}
             </button>
           </div>

@@ -26,6 +26,5 @@ Thumbs.db
 .vscode/
 
 
-frontend/src/assets/screenshots/demo_video.mp4
-
+frontend/src/assets/screenshots/*.mp4
 
